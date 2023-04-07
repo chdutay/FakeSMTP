@@ -68,9 +68,15 @@ public final class MailSaver extends Observable {
 		// We move everything that we can move outside the synchronized block to limit the impact
 		EmailModel model = new EmailModel();
 		model.setFrom(from);
+		LOGGER.info("From: {}", model.getFrom());
+
 		model.setTo(to);
+		LOGGER.info("To: {}", model.getTo());
+
 		String mailContent = convertStreamToString(data);
 		model.setSubject(getSubjectFromStr(mailContent));
+		LOGGER.info("Subject: {}", model.getSubject());
+
 		model.setEmailStr(mailContent);
 
 		synchronized (getLock()) {
@@ -78,6 +84,7 @@ public final class MailSaver extends Observable {
 
 			model.setReceivedDate(new Date());
 			model.setFilePath(filePath);
+		    LOGGER.info("File: {}", model.getFilePath());
 
 			setChanged();
 			notifyObservers(model);
